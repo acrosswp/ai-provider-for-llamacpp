@@ -40,7 +40,7 @@ Default server URL used by this plugin:
 ### Composer package
 
 ```bash
-composer require wordpress/ai-provider-for-llamacpp
+composer require acrosswp/ai-provider-for-llamacpp
 ```
 
 ## Configuration
