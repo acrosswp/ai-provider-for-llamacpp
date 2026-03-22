@@ -1,5 +1,5 @@
 {
-    "name": "wordpress/ai-provider-for-llamacpp",
+    "name": "acrosswp/ai-provider-for-llamacpp",
     "description": "AI Provider for llama.cpp for the PHP AI Client SDK. Works as both a Composer package and WordPress plugin.",
     "license": "GPL-2.0-or-later",
     "keywords": [
