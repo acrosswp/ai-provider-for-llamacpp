@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PSR-4 autoloader for the AI Provider for llama.cpp package.
  *
@@ -10,20 +9,26 @@
 
 declare(strict_types=1);
 
-spl_autoload_register(static function (string $class): void {
-    $prefix = 'WordPress\\LlamaCppAiProvider\\';
-    $baseDir = __DIR__ . '/';
+if ( ! defined( 'ABSPATH' ) ) {
+	return;
+}
 
-    $len = strlen($prefix);
+spl_autoload_register(
+	static function ( string $class ): void {
+		$prefix   = 'WordPress\\LlamaCppAiProvider\\';
+		$base_dir = __DIR__ . '/';
 
-    if (strncmp($class, $prefix, $len) !== 0) {
-        return;
-    }
+		$len = strlen( $prefix );
 
-    $relativeClass = substr($class, $len);
-    $file = $baseDir . str_replace('\\', '/', $relativeClass) . '.php';
+		if ( strncmp( $class, $prefix, $len ) !== 0 ) {
+			return;
+		}
 
-    if (file_exists($file)) {
-        require $file;
-    }
-});
+		$relative_class = substr( $class, $len );
+		$file           = $base_dir . str_replace( '\\', '/', $relative_class ) . '.php';
+
+		if ( file_exists( $file ) ) {
+			require $file;
+		}
+	}
+);

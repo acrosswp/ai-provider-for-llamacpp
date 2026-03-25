@@ -1,9 +1,17 @@
 <?php
+/**
+ * Model metadata directory class for llama.cpp.
+ *
+ * @since 0.0.1
+ *
+ * @package WordPress\LlamaCppAiProvider
+ */
 
 declare(strict_types=1);
 
 namespace WordPress\LlamaCppAiProvider\Metadata;
 
+use WordPress\AiClient\Common\Exception\RuntimeException;
 use WordPress\AiClient\Messages\Enums\ModalityEnum;
 use WordPress\AiClient\Providers\ApiBasedImplementation\AbstractApiBasedModelMetadataDirectory;
 use WordPress\AiClient\Providers\Http\Exception\ResponseException;
@@ -12,7 +20,6 @@ use WordPress\AiClient\Providers\Models\DTO\SupportedOption;
 use WordPress\AiClient\Providers\Models\Enums\CapabilityEnum;
 use WordPress\AiClient\Providers\Models\Enums\OptionEnum;
 use WordPress\LlamaCppAiProvider\Provider\LlamaCppProvider;
-use WordPress\AiClient\Common\Exception\RuntimeException;
 
 /**
  * Class for the llama.cpp model metadata directory.
@@ -37,6 +44,10 @@ class LlamaCppModelMetadataDirectory extends AbstractApiBasedModelMetadataDirect
 	 * wp_remote_get() so that local (127.x) addresses are not blocked.
 	 *
 	 * @since 0.0.1
+	 *
+	 * @return array<mixed>
+	 * @throws RuntimeException  When the HTTP request fails or returns a non-200 status.
+	 * @throws ResponseException When the response body is missing required data.
 	 */
 	protected function sendListModelsRequest(): array {
 		$url      = LlamaCppProvider::url( 'v1/models' );
@@ -50,18 +61,22 @@ class LlamaCppModelMetadataDirectory extends AbstractApiBasedModelMetadataDirect
 
 		if ( is_wp_error( $response ) ) {
 			throw new RuntimeException(
-				'Failed to list llama.cpp models: ' . $response->get_error_message()
+				'Failed to list llama.cpp models: ' . esc_html( $response->get_error_message() )
 			);
 		}
 
 		$status_code = (int) wp_remote_retrieve_response_code( $response );
 		if ( 200 !== $status_code ) {
 			throw new RuntimeException(
-				sprintf( 'Failed to list llama.cpp models: HTTP %d', $status_code )
+				esc_html( sprintf( 'Failed to list llama.cpp models: HTTP %d', $status_code ) )
 			);
 		}
 
-		/** @var ModelsResponseData $body */
+		/**
+		 * Decoded JSON response.
+		 *
+		 * @var ModelsResponseData
+		 */
 		$body = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		if ( ! isset( $body['data'] ) || ! $body['data'] ) {

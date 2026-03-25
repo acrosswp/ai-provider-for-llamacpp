@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name: AI Provider for llama.cpp
  * Plugin URI: https://github.com/acrossWP/ai-provider-for-llamacpp
@@ -19,10 +18,6 @@
 declare(strict_types=1);
 
 namespace WordPress\LlamaCppAiProvider;
-
-use WordPress\AiClient\AiClient;
-use WordPress\LlamaCppAiProvider\Provider\LlamaCppProvider;
-use WordPress\LlamaCppAiProvider\Settings\LlamaCppSettings;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	return;

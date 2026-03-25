@@ -1,4 +1,11 @@
 <?php
+/**
+ * Provider class for llama.cpp.
+ *
+ * @since 0.0.1
+ *
+ * @package WordPress\LlamaCppAiProvider
+ */
 
 declare(strict_types=1);
 
@@ -39,20 +46,25 @@ class LlamaCppProvider extends AbstractApiProvider {
 	 * {@inheritDoc}
 	 *
 	 * @since 0.0.1
+	 *
+	 * @param ModelMetadata    $model_metadata    The model metadata.
+	 * @param ProviderMetadata $provider_metadata  The provider metadata.
+	 * @return ModelInterface
+	 * @throws RuntimeException When no supported capability is found.
 	 */
 	protected static function createModel(
-		ModelMetadata $modelMetadata,
-		ProviderMetadata $providerMetadata
+		ModelMetadata $model_metadata,
+		ProviderMetadata $provider_metadata
 	): ModelInterface {
-		$capabilities = $modelMetadata->getSupportedCapabilities();
+		$capabilities = $model_metadata->getSupportedCapabilities();
 		foreach ( $capabilities as $capability ) {
 			if ( $capability->isTextGeneration() ) {
-				return new LlamaCppTextGenerationModel( $modelMetadata, $providerMetadata );
+				return new LlamaCppTextGenerationModel( $model_metadata, $provider_metadata );
 			}
 		}
 
 		throw new RuntimeException(
-			'Unsupported model capabilities: ' . implode( ', ', $capabilities )
+			'Unsupported model capabilities: ' . esc_html( implode( ', ', $capabilities ) )
 		);
 	}
 
@@ -62,7 +74,7 @@ class LlamaCppProvider extends AbstractApiProvider {
 	 * @since 0.0.1
 	 */
 	protected static function createProviderMetadata(): ProviderMetadata {
-		$providerMetadataArgs = array(
+		$provider_metadata_args = array(
 			'llamacpp',
 			'llama.cpp',
 			ProviderTypeEnum::cloud(),
@@ -73,13 +85,13 @@ class LlamaCppProvider extends AbstractApiProvider {
 		// Provider description support was added in 1.2.0.
 		if ( version_compare( AiClient::VERSION, '1.2.0', '>=' ) ) {
 			if ( function_exists( '__' ) ) {
-				$providerMetadataArgs[] = __( 'Text generation with llama.cpp, running locally or on a remote server.', 'ai-provider-for-llamacpp' );
+				$provider_metadata_args[] = __( 'Text generation with llama.cpp, running locally or on a remote server.', 'ai-provider-for-llamacpp' );
 			} else {
-				$providerMetadataArgs[] = 'Text generation with llama.cpp, running locally or on a remote server.';
+				$provider_metadata_args[] = 'Text generation with llama.cpp, running locally or on a remote server.';
 			}
 		}
 
-		return new ProviderMetadata( ...$providerMetadataArgs );
+		return new ProviderMetadata( ...$provider_metadata_args );
 	}
 
 	/**

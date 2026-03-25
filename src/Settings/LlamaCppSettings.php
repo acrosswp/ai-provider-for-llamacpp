@@ -1,4 +1,11 @@
 <?php
+/**
+ * Settings class for the AI Provider for llama.cpp plugin.
+ *
+ * @since 0.0.1
+ *
+ * @package WordPress\LlamaCppAiProvider
+ */
 
 declare(strict_types=1);
 

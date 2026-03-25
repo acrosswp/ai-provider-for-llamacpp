@@ -1,4 +1,11 @@
 <?php
+/**
+ * Text generation model class for llama.cpp.
+ *
+ * @since 0.0.1
+ *
+ * @package WordPress\LlamaCppAiProvider
+ */
 
 declare(strict_types=1);
 
@@ -20,6 +27,12 @@ class LlamaCppTextGenerationModel extends AbstractOpenAiCompatibleTextGeneration
 	 * {@inheritDoc}
 	 *
 	 * @since 0.0.1
+	 *
+	 * @param HttpMethodEnum        $method   HTTP method.
+	 * @param string                $path     Request path.
+	 * @param array<string, string> $headers  Optional headers.
+	 * @param mixed                 $data     Optional request data.
+	 * @return Request
 	 */
 	protected function createRequest(
 		HttpMethodEnum $method,
