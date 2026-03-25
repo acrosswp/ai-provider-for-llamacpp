@@ -54,7 +54,7 @@ Go to **Settings > llama.cpp** and enter your server's base URL in the "Server U
 
 == Changelog ==
 
-= 1.0.0 =
+= 0.0.1 =
 * Initial release
 * Text generation with llama.cpp OpenAI-compatible API
 * Settings page for server URL configuration
