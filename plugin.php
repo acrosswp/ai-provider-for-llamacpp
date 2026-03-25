@@ -6,7 +6,7 @@
  * Requires at least: 7.0
  * Requires PHP: 7.4
  * Version: 0.0.1
- * Author: AcrossWP
+ * Author: raftaar1191
  * Author URI: https://acrosswp.com/
  * License: GPL-2.0-or-later
  * License URI: https://spdx.org/licenses/GPL-2.0-or-later.html

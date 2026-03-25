@@ -1,5 +1,5 @@
 === AI Provider for llama.cpp ===
-Contributors: acrosswp, raftaar1191
+Contributors: raftaar1191
 Tags: ai, llamacpp, llm, local-ai, connector
 Requires at least: 7.0
 Tested up to: 7.0

@@ -14,17 +14,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 spl_autoload_register(
-	static function ( string $class ): void {
+	static function ( string $class_name ): void {
 		$prefix   = 'WordPress\\LlamaCppAiProvider\\';
 		$base_dir = __DIR__ . '/';
 
 		$len = strlen( $prefix );
 
-		if ( strncmp( $class, $prefix, $len ) !== 0 ) {
+		if ( strncmp( $class_name, $prefix, $len ) !== 0 ) {
 			return;
 		}
 
-		$relative_class = substr( $class, $len );
+		$relative_class = substr( $class_name, $len );
 		$file           = $base_dir . str_replace( '\\', '/', $relative_class ) . '.php';
 
 		if ( file_exists( $file ) ) {
