@@ -4,12 +4,12 @@
  *
  * @since 0.0.1
  *
- * @package WordPress\LlamaCppAiProvider
+ * @package AcrossWP\AiProviderForLlamaCpp
  */
 
 declare(strict_types=1);
 
-namespace WordPress\LlamaCppAiProvider\Provider;
+namespace AcrossWP\AiProviderForLlamaCpp\Provider;
 
 use WordPress\AiClient\AiClient;
 use WordPress\AiClient\Common\Exception\RuntimeException;
@@ -22,9 +22,9 @@ use WordPress\AiClient\Providers\Enums\ProviderTypeEnum;
 use WordPress\AiClient\Providers\Http\Enums\RequestAuthenticationMethod;
 use WordPress\AiClient\Providers\Models\Contracts\ModelInterface;
 use WordPress\AiClient\Providers\Models\DTO\ModelMetadata;
-use WordPress\LlamaCppAiProvider\Metadata\LlamaCppModelMetadataDirectory;
-use WordPress\LlamaCppAiProvider\Models\LlamaCppTextGenerationModel;
-use WordPress\LlamaCppAiProvider\Settings\LlamaCppSettings;
+use AcrossWP\AiProviderForLlamaCpp\Metadata\LlamaCppModelMetadataDirectory;
+use AcrossWP\AiProviderForLlamaCpp\Models\LlamaCppTextGenerationModel;
+use AcrossWP\AiProviderForLlamaCpp\Settings\LlamaCppSettings;
 
 /**
  * Class for the llama.cpp provider.
@@ -64,7 +64,8 @@ class LlamaCppProvider extends AbstractApiProvider {
 		}
 
 		throw new RuntimeException(
-			'Unsupported model capabilities: ' . esc_html( implode( ', ', $capabilities ) )
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Exception message, not output.
+			'Unsupported model capabilities: ' . implode( ', ', $capabilities )
 		);
 	}
 
@@ -77,7 +78,7 @@ class LlamaCppProvider extends AbstractApiProvider {
 		$provider_metadata_args = array(
 			'llamacpp',
 			'llama.cpp',
-			ProviderTypeEnum::cloud(),
+			ProviderTypeEnum::server(),
 			null,
 			RequestAuthenticationMethod::apiKey(),
 		);

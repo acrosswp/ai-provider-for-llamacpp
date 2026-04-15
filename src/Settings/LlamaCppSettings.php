@@ -4,19 +4,19 @@
  *
  * @since 0.0.1
  *
- * @package WordPress\LlamaCppAiProvider
+ * @package AcrossWP\AiProviderForLlamaCpp
  */
 
 declare(strict_types=1);
 
-namespace WordPress\LlamaCppAiProvider\Settings;
+namespace AcrossWP\AiProviderForLlamaCpp\Settings;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * Class for the llama.cpp settings in the WordPress admin.
+ * Class for the llama.cpp settings in the AcrossWP admin.
  *
  * Provides a settings page under Settings > llama.cpp for configuring the
  * server base URL.
@@ -26,9 +26,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 class LlamaCppSettings {
 
 	private const DEFAULT_BASE_URL = 'http://127.0.0.1:8080';
-	private const OPTION_GROUP     = 'ai-provider-for-llamacpp-settings';
-	private const OPTION_NAME      = 'ai_provider_for_llamacpp_settings';
-	private const PAGE_SLUG        = 'ai-provider-for-llamacpp';
+	private const OPTION_GROUP     = 'aipf_llamacpp_settings_group';
+	private const OPTION_NAME      = 'aipf_llamacpp_settings';
+	private const PAGE_SLUG        = 'aipf-llamacpp';
 	private const SECTION_ID       = 'ai_provider_for_llamacpp_main';
 
 	/**
@@ -127,9 +127,11 @@ class LlamaCppSettings {
 			<p>
 				<?php
 				printf(
-					/* translators: 1: default URL in code tags */
-					esc_html__( 'Configure the connection to your llama.cpp server. Leave the URL empty to use the default (%1$s).', 'ai-provider-for-llamacpp' ),
-					'<code>' . esc_html( self::DEFAULT_BASE_URL ) . '</code>'
+					/* translators: 1: default URL in code tags, 2: opening link tag, 3: closing link tag */
+					esc_html__( 'Configure the connection to your llama.cpp server. Leave the URL empty to use the default (%1$s). The provider itself appears on the %2$sSettings > Connectors%3$s screen.', 'ai-provider-for-llamacpp' ),
+					'<code>' . esc_html( self::DEFAULT_BASE_URL ) . '</code>',
+					'<a href="' . esc_url( admin_url( 'options-connectors.php' ) ) . '">',
+					'</a>'
 				);
 				?>
 			</p>

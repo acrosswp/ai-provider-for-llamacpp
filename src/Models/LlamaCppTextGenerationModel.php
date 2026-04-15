@@ -4,17 +4,17 @@
  *
  * @since 0.0.1
  *
- * @package WordPress\LlamaCppAiProvider
+ * @package AcrossWP\AiProviderForLlamaCpp
  */
 
 declare(strict_types=1);
 
-namespace WordPress\LlamaCppAiProvider\Models;
+namespace AcrossWP\AiProviderForLlamaCpp\Models;
 
 use WordPress\AiClient\Providers\Http\DTO\Request;
 use WordPress\AiClient\Providers\Http\Enums\HttpMethodEnum;
 use WordPress\AiClient\Providers\OpenAiCompatibleImplementation\AbstractOpenAiCompatibleTextGenerationModel;
-use WordPress\LlamaCppAiProvider\Provider\LlamaCppProvider;
+use AcrossWP\AiProviderForLlamaCpp\Provider\LlamaCppProvider;
 
 /**
  * Class for a llama.cpp text generation model using the OpenAI-compatible chat completions API.

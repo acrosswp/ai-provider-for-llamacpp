@@ -12,21 +12,21 @@
  * License URI: https://spdx.org/licenses/GPL-2.0-or-later.html
  * Text Domain: ai-provider-for-llamacpp
  *
- * @package WordPress\LlamaCppAiProvider
+ * @package AcrossWP\AiProviderForLlamaCpp
  */
 
 declare(strict_types=1);
 
-namespace WordPress\LlamaCppAiProvider;
+namespace AcrossWP\AiProviderForLlamaCpp;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
 
-define( 'AI_PROVIDER_FOR_LLAMACPP_MIN_PHP_VERSION', '7.4' );
-define( 'AI_PROVIDER_FOR_LLAMACPP_MIN_WP_VERSION', '7.0' );
-define( 'AI_PROVIDER_FOR_LLAMACPP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'AI_PROVIDER_FOR_LLAMACPP_PLUGIN_FILE', __FILE__ );
+define( 'AIPF_LLAMACPP_MIN_PHP_VERSION', '7.4' );
+define( 'AIPF_LLAMACPP_MIN_WP_VERSION', '7.0' );
+define( 'AIPF_LLAMACPP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'AIPF_LLAMACPP_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 
 require_once __DIR__ . '/src/autoload.php';
 
@@ -42,7 +42,7 @@ function requirement_notice( string $message ): void {
 		return;
 	}
 	?>
-	<div class="notice notice-error">
+	<div class="notice notice-error is-dismissible">
 		<p><?php echo wp_kses_post( $message ); ?></p>
 	</div>
 	<?php
@@ -56,7 +56,7 @@ function requirement_notice( string $message ): void {
  * @return bool
  */
 function check_php_version(): bool {
-	if ( version_compare( phpversion(), AI_PROVIDER_FOR_LLAMACPP_MIN_PHP_VERSION, '<' ) ) {
+	if ( version_compare( phpversion(), AIPF_LLAMACPP_MIN_PHP_VERSION, '<' ) ) {
 		add_action(
 			'admin_notices',
 			static function (): void {
@@ -64,7 +64,7 @@ function check_php_version(): bool {
 					sprintf(
 						/* translators: 1: Required PHP version, 2: Current PHP version */
 						__( 'The llama.cpp Provider plugin requires PHP version %1$s or higher. You are running PHP version %2$s.', 'ai-provider-for-llamacpp' ),
-						AI_PROVIDER_FOR_LLAMACPP_MIN_PHP_VERSION,
+						AIPF_LLAMACPP_MIN_PHP_VERSION,
 						PHP_VERSION
 					)
 				);
@@ -85,7 +85,7 @@ function check_php_version(): bool {
  * @return bool
  */
 function check_wp_version(): bool {
-	if ( ! is_wp_version_compatible( AI_PROVIDER_FOR_LLAMACPP_MIN_WP_VERSION ) ) {
+	if ( ! is_wp_version_compatible( AIPF_LLAMACPP_MIN_WP_VERSION ) ) {
 		add_action(
 			'admin_notices',
 			static function (): void {
@@ -94,7 +94,7 @@ function check_wp_version(): bool {
 					sprintf(
 						/* translators: 1: Required WordPress version, 2: Current WordPress version */
 						__( 'The llama.cpp Provider plugin requires WordPress version %1$s or higher. You are running WordPress version %2$s.', 'ai-provider-for-llamacpp' ),
-						AI_PROVIDER_FOR_LLAMACPP_MIN_WP_VERSION,
+						AIPF_LLAMACPP_MIN_WP_VERSION,
 						$wp_version
 					)
 				);

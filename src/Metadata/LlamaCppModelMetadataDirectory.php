@@ -4,12 +4,12 @@
  *
  * @since 0.0.1
  *
- * @package WordPress\LlamaCppAiProvider
+ * @package AcrossWP\AiProviderForLlamaCpp
  */
 
 declare(strict_types=1);
 
-namespace WordPress\LlamaCppAiProvider\Metadata;
+namespace AcrossWP\AiProviderForLlamaCpp\Metadata;
 
 use WordPress\AiClient\Common\Exception\RuntimeException;
 use WordPress\AiClient\Messages\Enums\ModalityEnum;
@@ -19,7 +19,7 @@ use WordPress\AiClient\Providers\Models\DTO\ModelMetadata;
 use WordPress\AiClient\Providers\Models\DTO\SupportedOption;
 use WordPress\AiClient\Providers\Models\Enums\CapabilityEnum;
 use WordPress\AiClient\Providers\Models\Enums\OptionEnum;
-use WordPress\LlamaCppAiProvider\Provider\LlamaCppProvider;
+use AcrossWP\AiProviderForLlamaCpp\Provider\LlamaCppProvider;
 
 /**
  * Class for the llama.cpp model metadata directory.
@@ -50,12 +50,13 @@ class LlamaCppModelMetadataDirectory extends AbstractApiBasedModelMetadataDirect
 	 * @throws ResponseException When the response body is missing required data.
 	 */
 	protected function sendListModelsRequest(): array {
-		$url      = LlamaCppProvider::url( 'v1/models' );
+		$url = LlamaCppProvider::url( 'v1/models' );
+
 		$response = wp_remote_get(
 			$url,
 			array(
 				'timeout'   => 5,
-				'sslverify' => false,
+				'sslverify' => wp_parse_url( $url, PHP_URL_HOST ) !== '127.0.0.1',
 			)
 		);
 

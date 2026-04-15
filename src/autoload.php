@@ -4,7 +4,7 @@
  *
  * @since 0.0.1
  *
- * @package WordPress\LlamaCppAiProvider
+ * @package AcrossWP\AiProviderForLlamaCpp
  */
 
 declare(strict_types=1);
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 spl_autoload_register(
 	static function ( string $class_name ): void {
-		$prefix   = 'WordPress\\LlamaCppAiProvider\\';
+		$prefix   = 'AcrossWP\\AiProviderForLlamaCpp\\';
 		$base_dir = __DIR__ . '/';
 
 		$len = strlen( $prefix );

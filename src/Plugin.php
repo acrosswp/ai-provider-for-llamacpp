@@ -4,12 +4,12 @@
  *
  * @since 0.0.1
  *
- * @package WordPress\LlamaCppAiProvider
+ * @package AcrossWP\AiProviderForLlamaCpp
  */
 
 declare(strict_types=1);
 
-namespace WordPress\LlamaCppAiProvider;
+namespace AcrossWP\AiProviderForLlamaCpp;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WordPress\AiClient\AiClient;
 use WordPress\AiClient\Providers\Http\DTO\ApiKeyRequestAuthentication;
-use WordPress\LlamaCppAiProvider\Provider\LlamaCppProvider;
-use WordPress\LlamaCppAiProvider\Settings\LlamaCppSettings;
+use AcrossWP\AiProviderForLlamaCpp\Provider\LlamaCppProvider;
+use AcrossWP\AiProviderForLlamaCpp\Settings\LlamaCppSettings;
 
 /**
  * Plugin class.
@@ -30,7 +30,7 @@ class Plugin {
 	/**
 	 * Transient key used to cache the available model IDs from the llama.cpp server.
 	 */
-	private const MODEL_TRANSIENT_KEY = 'ai_llamacpp_model_ids';
+	private const MODEL_TRANSIENT_KEY = 'aipf_llamacpp_model_ids';
 
 	/**
 	 * Initializes the plugin.
@@ -42,13 +42,13 @@ class Plugin {
 		add_action( 'init', array( $this, 'register_fallback_auth' ), 15 );
 		add_action( 'init', array( $this, 'initialize_settings' ) );
 		add_filter(
-			'plugin_action_links_' . plugin_basename( AI_PROVIDER_FOR_LLAMACPP_PLUGIN_FILE ),
+			'plugin_action_links_' . plugin_basename( AIPF_LLAMACPP_PLUGIN_FILE ),
 			array( $this, 'plugin_action_links' )
 		);
 		add_filter( 'http_request_host_is_external', array( $this, 'allow_localhost_requests' ), 10, 3 );
 		add_filter( 'http_allowed_safe_ports', array( $this, 'allow_llamacpp_ports' ) );
 		add_filter( 'wpai_preferred_text_models', array( $this, 'add_preferred_text_models' ) );
-		add_action( 'update_option_ai_provider_for_llamacpp_settings', array( $this, 'clear_model_transient' ) );
+		add_action( 'update_option_aipf_llamacpp_settings', array( $this, 'clear_model_transient' ) );
 	}
 
 	/**
@@ -141,11 +141,13 @@ class Plugin {
 			return array_merge( $preferred_models, $cached );
 		}
 
+		$url = rtrim( $this->get_base_url(), '/' ) . '/v1/models';
+
 		$response = wp_remote_get(
-			rtrim( $this->get_base_url(), '/' ) . '/v1/models',
+			$url,
 			array(
 				'timeout'   => 2,
-				'sslverify' => false,
+				'sslverify' => wp_parse_url( $url, PHP_URL_HOST ) !== '127.0.0.1',
 			)
 		);
 
@@ -190,12 +192,18 @@ class Plugin {
 	 * @return array<string> Modified action links.
 	 */
 	public function plugin_action_links( array $links ): array {
-		$settings_link = sprintf(
+		$connectors_link = sprintf(
 			'<a href="%1$s">%2$s</a>',
-			admin_url( 'options-general.php?page=ai-provider-for-llamacpp' ),
+			admin_url( 'options-connectors.php' ),
+			esc_html__( 'Connectors', 'ai-provider-for-llamacpp' )
+		);
+		$settings_link   = sprintf(
+			'<a href="%1$s">%2$s</a>',
+			admin_url( 'options-general.php?page=aipf-llamacpp' ),
 			esc_html__( 'Settings', 'ai-provider-for-llamacpp' )
 		);
 
+		array_unshift( $links, $connectors_link );
 		array_unshift( $links, $settings_link );
 
 		return $links;
@@ -212,7 +220,7 @@ class Plugin {
 	 * @return bool
 	 */
 	public function allow_localhost_requests( bool $external, string $host, string $url ): bool {
-		if ( strpos( $url, $this->get_base_url() ) !== false ) {
+		if ( wp_parse_url( $url, PHP_URL_HOST ) === wp_parse_url( $this->get_base_url(), PHP_URL_HOST ) ) {
 			return true;
 		}
 
