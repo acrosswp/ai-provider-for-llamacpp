@@ -19,6 +19,7 @@ use WordPress\AiClient\AiClient;
 use WordPress\AiClient\Providers\Http\DTO\ApiKeyRequestAuthentication;
 use AcrossWP\AiProviderForLlamaCpp\Provider\LlamaCppProvider;
 use AcrossWP\AiProviderForLlamaCpp\Settings\LlamaCppSettings;
+use AcrossWP\AiProviderForLlamaCpp\Settings\LlamaCppDocs;
 
 /**
  * Plugin class.
@@ -46,7 +47,7 @@ class Plugin {
 			array( $this, 'plugin_action_links' )
 		);
 		add_filter( 'http_request_host_is_external', array( $this, 'allow_localhost_requests' ), 10, 3 );
-		add_filter( 'http_allowed_safe_ports', array( $this, 'allow_llamacpp_ports' ) );
+		add_filter( 'http_allowed_safe_ports', array( $this, 'allow_llamacpp_ports' ), 10, 3 );
 		add_filter( 'wpai_preferred_text_models', array( $this, 'add_preferred_text_models' ) );
 		add_action( 'update_option_aipf_llamacpp_settings', array( $this, 'clear_model_transient' ) );
 	}
@@ -119,6 +120,9 @@ class Plugin {
 	public function initialize_settings(): void {
 		$settings = new LlamaCppSettings();
 		$settings->init();
+
+		$docs = new LlamaCppDocs();
+		$docs->init();
 	}
 
 	/**
@@ -199,7 +203,7 @@ class Plugin {
 		);
 		$settings_link   = sprintf(
 			'<a href="%1$s">%2$s</a>',
-			admin_url( 'options-general.php?page=aipf-llamacpp' ),
+			admin_url( 'admin.php?page=aipf-llamacpp' ),
 			esc_html__( 'Settings', 'ai-provider-for-llamacpp' )
 		);
 
@@ -220,7 +224,16 @@ class Plugin {
 	 * @return bool
 	 */
 	public function allow_localhost_requests( bool $external, string $host, string $url ): bool {
-		if ( wp_parse_url( $url, PHP_URL_HOST ) === wp_parse_url( $this->get_base_url(), PHP_URL_HOST ) ) {
+		$request_host  = wp_parse_url( $url, PHP_URL_HOST );
+		$base_url_host = wp_parse_url( $this->get_base_url(), PHP_URL_HOST );
+
+		// Allow requests to the configured server host.
+		if ( $request_host === $base_url_host ) {
+			return true;
+		}
+
+		// Allow requests to localhost (sub-server ports in router mode).
+		if ( in_array( $request_host, array( '127.0.0.1', 'localhost' ), true ) ) {
 			return true;
 		}
 
@@ -235,13 +248,22 @@ class Plugin {
 	 * @param array<int> $ports The currently allowed ports.
 	 * @return array<int>
 	 */
-	public function allow_llamacpp_ports( array $ports ): array {
-		$port = wp_parse_url( $this->get_base_url(), PHP_URL_PORT );
+	public function allow_llamacpp_ports( array $ports, string $host = '', string $url = '' ): array {
+		$base_port = wp_parse_url( $this->get_base_url(), PHP_URL_PORT );
 
-		if ( ! $port ) {
-			return $ports;
+		if ( $base_port ) {
+			$ports[] = (int) $base_port;
 		}
 
-		return array_merge( $ports, array( (int) $port ) );
+		// In router mode, sub-servers use random high ports on localhost.
+		// Allow any port when the request target is localhost.
+		if ( in_array( $host, array( '127.0.0.1', 'localhost' ), true ) ) {
+			$request_port = (int) wp_parse_url( $url, PHP_URL_PORT );
+			if ( $request_port > 0 ) {
+				$ports[] = $request_port;
+			}
+		}
+
+		return $ports;
 	}
 }

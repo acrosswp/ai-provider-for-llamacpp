@@ -17,6 +17,10 @@ Current capabilities include:
 - WordPress admin settings for the llama.cpp server URL
 - Fallback auth registration so local setups can work without an API key
 
+## Getting Started
+
+For a complete setup guide — installing llama.cpp, downloading models, running the server, and connecting WordPress — see the [Getting Started Guide](docs/getting-started.html).
+
 ## Requirements
 
 - PHP 7.4+

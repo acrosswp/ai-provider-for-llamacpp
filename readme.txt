@@ -31,6 +31,10 @@ llama.cpp exposes an OpenAI-compatible API, and this provider uses that API to c
 * WordPress AI Client plugin must be installed and activated
 * llama.cpp server running locally or on a remote host
 
+== Getting Started ==
+
+For a complete setup guide — installing llama.cpp, downloading models, running the server, and connecting WordPress — see the [Getting Started Guide](https://github.com/acrosswp/ai-provider-for-llamacpp/blob/main/docs/getting-started.html).
+
 == Installation ==
 
 1. Ensure the WordPress AI Client plugin is installed and activated.
