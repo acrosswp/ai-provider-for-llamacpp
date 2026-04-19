@@ -200,7 +200,7 @@ class Plugin {
 		);
 		$settings_link   = sprintf(
 			'<a href="%1$s">%2$s</a>',
-			admin_url( 'admin.php?page=aipf-llamacpp' ),
+			admin_url( 'options-general.php?page=aipf-llamacpp' ),
 			esc_html__( 'Settings', 'ai-provider-for-llamacpp' )
 		);
 
