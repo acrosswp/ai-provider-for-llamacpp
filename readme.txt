@@ -62,3 +62,8 @@ Go to **Settings > llama.cpp** and enter your server's base URL in the "Server U
 * Initial release
 * Text generation with llama.cpp OpenAI-compatible API
 * Settings page for server URL configuration
+
+= 0.0.2 =
+* Added documentation in the docs/ directory
+* Fixed minor issues and small bugs
+* Updated plugin icon and banner images
