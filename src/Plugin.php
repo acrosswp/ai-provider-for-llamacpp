@@ -120,7 +120,6 @@ class Plugin {
 		$settings = new LlamaCppSettings();
 		$settings->init();
 
-		$docs->init();
 	}
 
 	/**
