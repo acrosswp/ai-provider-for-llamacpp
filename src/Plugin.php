@@ -19,7 +19,6 @@ use WordPress\AiClient\AiClient;
 use WordPress\AiClient\Providers\Http\DTO\ApiKeyRequestAuthentication;
 use AcrossWP\AiProviderForLlamaCpp\Provider\LlamaCppProvider;
 use AcrossWP\AiProviderForLlamaCpp\Settings\LlamaCppSettings;
-use AcrossWP\AiProviderForLlamaCpp\Settings\LlamaCppDocs;
 
 /**
  * Plugin class.
@@ -121,7 +120,6 @@ class Plugin {
 		$settings = new LlamaCppSettings();
 		$settings->init();
 
-		$docs = new LlamaCppDocs();
 		$docs->init();
 	}
 
