@@ -33,7 +33,27 @@ llama.cpp exposes an OpenAI-compatible API, and this provider uses that API to c
 
 == Getting Started ==
 
-For a complete setup guide — installing llama.cpp, downloading models, running the server, and connecting WordPress — see the [Getting Started Guide](https://github.com/acrosswp/ai-provider-for-llamacpp/blob/main/docs/getting-started.html).
+= What do I need before using this plugin? =
+
+You need a running llama.cpp server (local or remote) and the WordPress AI Client plugin installed and activated.
+
+= How do I install llama.cpp? =
+
+On macOS run `brew install llama.cpp`. For other platforms, see the official docs at https://llama-cpp.com/download/
+
+= Where do I get a model? =
+
+Download a GGUF model from Hugging Face. TinyLlama 1.1B (Q4_K_M, ~636 MB) is a good starting point for testing.
+
+= How do I start the server? =
+
+Run `llama-server --models-dir ~/models`. The server starts on `http://127.0.0.1:8080` by default.
+
+= How do I connect WordPress to my llama.cpp server? =
+
+Go to **Settings > llama.cpp** and enter your server URL. Leave it blank to use the default (`http://127.0.0.1:8080`).
+
+For full step-by-step setup instructions, see the [Getting Started Guide](https://github.com/acrosswp/ai-provider-for-llamacpp/).
 
 == Installation ==
 
