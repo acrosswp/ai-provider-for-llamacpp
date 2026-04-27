@@ -48,6 +48,7 @@ class Plugin {
 		add_filter( 'http_request_host_is_external', array( $this, 'allow_localhost_requests' ), 10, 3 );
 		add_filter( 'http_allowed_safe_ports', array( $this, 'allow_llamacpp_ports' ), 10, 3 );
 		add_filter( 'wpai_preferred_text_models', array( $this, 'add_preferred_text_models' ) );
+		add_filter( 'wpai_has_ai_credentials', array( $this, 'filter_has_ai_credentials' ), 10, 2 );
 		add_action( 'update_option_aipf_llamacpp_settings', array( $this, 'clear_model_transient' ) );
 	}
 
@@ -170,6 +171,33 @@ class Plugin {
 		set_transient( self::MODEL_TRANSIENT_KEY, $model_prefs, HOUR_IN_SECONDS );
 
 		return array_merge( $preferred_models, $model_prefs );
+	}
+
+	/**
+	 * Filters whether AI credentials are available.
+	 *
+	 * llama.cpp does not require an API key, so credentials are considered
+	 * available whenever the server is reachable and has returned models. This
+	 * check reuses the model transient populated by {@see add_preferred_text_models}
+	 * so no additional HTTP requests are made.
+	 *
+	 * @since 0.0.3
+	 *
+	 * @param bool  $has_credentials Whether credentials are available.
+	 * @param array $connectors      The registered connectors.
+	 * @return bool
+	 */
+	public function filter_has_ai_credentials( bool $has_credentials, array $connectors ): bool {
+		if ( $has_credentials ) {
+			return true;
+		}
+
+		$cached = get_transient( self::MODEL_TRANSIENT_KEY );
+		if ( is_array( $cached ) && ! empty( $cached ) ) {
+			return true;
+		}
+
+		return $has_credentials;
 	}
 
 	/**

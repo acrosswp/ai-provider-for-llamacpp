@@ -5,7 +5,7 @@
  * Description: AI Provider for llama.cpp for the WordPress AI Client.
  * Requires at least: 7.0
  * Requires PHP: 7.4
- * Version: 0.0.2
+ * Version: 0.0.3
  * Author: acrosswp
  * Author URI: https://acrosswp.com/
  * License: GPL-2.0-or-later

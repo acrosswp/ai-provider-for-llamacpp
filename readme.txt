@@ -3,7 +3,7 @@ Contributors: acrosswp
 Tags: ai, llamacpp, llm, local-ai, connector
 Requires at least: 7.0
 Tested up to: 7.0
-Stable tag: 0.0.2
+Stable tag: 0.0.3
 Requires PHP: 7.4
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -77,6 +77,9 @@ No. For local llama.cpp instances, no API key is needed. The plugin automaticall
 Go to **Settings > llama.cpp** and enter your server's base URL in the "Server URL" field.
 
 == Changelog ==
+
+= 0.0.3 =
+* Added support for the WordPress AI plugin — hooks into `wpai_has_ai_credentials` so the AI plugin recognises llama.cpp as a configured provider without requiring an API key
 
 = 0.0.1 =
 * Initial release
