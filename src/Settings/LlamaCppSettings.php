@@ -124,7 +124,12 @@ class LlamaCppSettings {
 		}
 		?>
 		<div class="wrap">
-			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+			<h1>
+				<?php echo esc_html( get_admin_page_title() ); ?>
+				<a href="https://github.com/acrosswp/ai-provider-for-llamacpp/blob/main/docs/getting-started.md" target="_blank" rel="noopener noreferrer" class="page-title-action">
+					<?php esc_html_e( 'Getting Started Guide', 'ai-provider-for-llamacpp' ); ?>
+				</a>
+			</h1>
 			<p>
 				<?php
 				printf(
@@ -145,7 +150,6 @@ class LlamaCppSettings {
 			</form>
 
 			<?php $this->render_models_section(); ?>
-			<?php $this->render_getting_started_section(); ?>
 		</div>
 		<?php
 	}
@@ -197,23 +201,6 @@ class LlamaCppSettings {
 		$table->display();
 
 		$this->render_model_details_modal();
-	}
-
-	/**
-	 * Renders a "Getting Started Guide" link below the Available Models section.
-	 *
-	 * Links to the Markdown documentation on GitHub rather than embedding the
-	 * HTML file inline so the page stays lean and the docs stay up to date.
-	 */
-	private function render_getting_started_section(): void {
-		?>
-		<hr style="margin: 2em 0;" />
-		<p>
-			<a href="https://github.com/acrosswp/ai-provider-for-llamacpp/blob/main/docs/getting-started.md" target="_blank" rel="noopener noreferrer" class="button">
-				<?php esc_html_e( 'Getting Started Guide', 'ai-provider-for-llamacpp' ); ?>
-			</a>
-		</p>
-		<?php
 	}
 
 	/**
