@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git:*)"
+      "Bash(git:*)",
+      "Bash(curl -sI https://plugins.svn.wordpress.org/ai-provider-for-llamacpp)",
+      "Bash(curl:*)",
+      "Bash(svn info:*)",
+      "Bash(svn list:*)",
+      "mcp__wporg-mcp-server__wporg-plugins--plugin-directory--get-plugin-status",
+      "Read(//private/tmp/**)",
+      "Bash(svn co:*)"
     ]
   }
 }
