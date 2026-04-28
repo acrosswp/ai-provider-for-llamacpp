@@ -200,40 +200,19 @@ class LlamaCppSettings {
 	}
 
 	/**
-	 * Renders the Getting Started guide below the Available Models section.
+	 * Renders a "Getting Started Guide" link below the Available Models section.
+	 *
+	 * Links to the Markdown documentation on GitHub rather than embedding the
+	 * HTML file inline so the page stays lean and the docs stay up to date.
 	 */
 	private function render_getting_started_section(): void {
-		$docs_file = AIPF_LLAMACPP_PLUGIN_DIR . 'docs/getting-started.html';
-		if ( ! file_exists( $docs_file ) ) {
-			return;
-		}
-		$html = file_get_contents( $docs_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-		if ( false === $html ) {
-			return;
-		}
 		?>
 		<hr style="margin: 2em 0;" />
-		<details id="aipf-getting-started" style="margin-top: 1em;">
-			<summary style="cursor:pointer; font-size:1.3em; font-weight:600; padding:0.4em 0; list-style:none; display:flex; align-items:center; gap:0.5em; user-select:none;">
-				<span class="aipf-summary-arrow" style="display:inline-block; font-size:0.9em; transition:transform 0.2s;">&#9654;</span>
+		<p>
+			<a href="https://github.com/acrosswp/ai-provider-for-llamacpp/blob/main/docs/getting-started.md" target="_blank" rel="noopener noreferrer" class="button">
 				<?php esc_html_e( 'Getting Started Guide', 'ai-provider-for-llamacpp' ); ?>
-			</summary>
-			<div style="margin-top: 1.5em;">
-				<?php echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted static file ?>
-			</div>
-		</details>
-		<script>
-		(function() {
-			var details = document.getElementById( 'aipf-getting-started' );
-			if ( ! details ) return;
-			var arrow = details.querySelector( '.aipf-summary-arrow' );
-			details.addEventListener( 'toggle', function() {
-				if ( arrow ) {
-					arrow.style.transform = details.open ? 'rotate(90deg)' : 'rotate(0deg)';
-				}
-			} );
-		})();
-		</script>
+			</a>
+		</p>
 		<?php
 	}
 
